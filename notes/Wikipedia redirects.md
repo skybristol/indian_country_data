@@ -1,0 +1,7 @@
+One of the issues I ran into is a pretty big proliferation of redirected names in Wikipedia articles for the Tribes. Here's an example.
+
+https://en.wikipedia.org/w/api.php?action=query&titles=Coyote%20Valley%20Reservation&prop=redirects
+
+Some of this is a matter of different names a Tribe is known by or titled in different circumstances or from different sources. The big part of it I need to look at is that I think there are cases where there is basically no Wikipedia article dedicated to describing the actual people as they are today, both as a distinct group of Tribal people and as a sovereign government. There's an article for their reservation and the textual content there may talk about the people, but there's no article for the people distinct from their reservation.
+
+That just seems wrong to me, but how to fix it is another question. At some point I may get into the space of starting the writing of those articles. A better way, would be to leverage the type of practice that Wikipedia has of convening a group together to work on a project to build out a type of content. That would be a really cool thing to help bring about with the Tribes if I can develop the relationships and spark interest. But that's probably a long way off at this point.

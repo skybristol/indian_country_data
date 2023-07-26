@@ -1,0 +1,14 @@
+In theory, BIA should be the original US gov source for boundary data on reservations and trust lands. It's provided up and aggregated in some way into PADUS, but I would much rather get to the original source.
+
+Digging around through Data.gov I found a reference that got me to a different [ArcGIS server](https://biamaps.doi.gov/server/rest/) that I didn't see listed anywhere else publicly. Some of the folders there are public, while a bunch of them require PIV card access (probably only for BIA). That's kind of good, because it means this is likely a server that's in actual use. I just don't know if the public data assets there are the point just before distribution out to the dead end.
+
+The interesting bits here I need to dig into further:
+- [DivLTR](https://biamaps.doi.gov/server/rest/services/DivLTR) - This is for the Division of Land Titles and Records. It seems to have a couple of main services that should get me the reservation boundaries (National LAR and LAR Supplemental - need to work this one out). For some Tribes, these are part of a different dataset - Tribal Statistical Areas (TSA). That applies to U.S. Census areas. This is all the result of the allotment land theft where many Tribes have a reservation now owned by the conquerers. The McGirt decision starts to open up the possibility for Tribes to start taking back certain rights and responsibilities within their "Tribal Statistical Areas."
+- The trust lands might also be available in that same LTR folder. TAAMS stands for the Trust Asset and Account Management System. This dataset is huge, so working with the REST service is going to suck. It's also something that changes most frequently, so having the service is kind of good if I can work out the query parameters to run updates from the perspective of a given Tribe.
+
+There's some other stuff in the few accessible folders, but that looks a little suspect like one-off services that may not be trustworthy for anything real other than [[BIA Tribal Leaders]].
+
+### Dead end
+Following some links to try to get to officially linked sources for spatial services, I ended up on [this URL](https://biamaps.doi.gov/). That ends up being basically worthless for my purposes. You can't navigate to any individual asset. The spatial services link to some kind of stripped down ArcGIS Server listing that is also not linkable. It looks like there are services hosted on GeoPlatform (part of that effort Xentity was involved in to host NGDAs), but they only point to MapServer end points that aren't actionable for my purposes like this one:
+
+https://bia-geospatial.geoplatform.gov/server/rest/services/DivLTR/BIA_AIAN_National_LAR/MapServer

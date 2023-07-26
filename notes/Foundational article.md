@@ -1,0 +1,1 @@
+I laid out some of the basic motivation and reasoning for this work in a Medium post. It provides the initial guideposts for the work, and I'll build on things from that point. It also shares the repo and invites collaboration.
