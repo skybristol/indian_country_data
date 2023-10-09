@@ -155,5 +155,8 @@ cython_debug/
 # data
 data/*
 
+# cache
+cache/*
+
 # macOS
 .DS_Store
