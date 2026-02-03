@@ -154,9 +154,14 @@ cython_debug/
 
 # data
 data/*
+fr/*
 
 # cache
 cache/*
 
 # macOS
 .DS_Store
+credentials.json
+
+# Testing
+test*
