@@ -9,12 +9,12 @@ PREFIX pr: <http://www.wikidata.org/prop/reference/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX wikibase: <http://wikiba.se/ontology#>
 
+# QUERY MAP:  SELECT ?id WHERE { ?id wdt:P31 wd:Q7840353. }
+
 START = @<FederallyRecognizedTribe>
 
 <FederallyRecognizedTribe> {
-    p:P31 @<InstanceOfFedTribe> ;  # Must have at least one P31 with federally recognized tribe value
-    p:P31 @<AnyItem> * ; # Allow any additional P31 statements
-    # p:P31 @<InstanceOfOther> * ;  # Allow any additional P31 statements
+    p:P31 @<P31Statement> + ;  # One or more P31 statements (at least one must be Q7840353 with references)
     wdt:P30 [ wd:Q49 ] ; # Continent: North America
     wdt:P17 [ wd:Q30 ] + ; # Country: United States (allow others for Tribes that cross nation boundaries)
     p:P571 @<Inception> * ; # Inception (date of establishment, generally from the perspective of the governmental entity interacting with the United States)
@@ -29,23 +29,29 @@ START = @<FederallyRecognizedTribe>
     wdt:P457 @<AnyItem> * ; # Item representing the foundational text for the tribe such as a constitution
     wdt:P527 @<TimeboundItem> * ; # Parts of the tribe such as subdivisions or associated entities
     wdt:P361 @<TimeboundItem> * ; # The tribe as a part of another entity such as a confederation
+    p:P1313 @<OfficeHeldByHeadOfGovernment> * ; # Office held by head of government
+    p:P1906 @<OfficeHeldByHeadOfState> * ; # Office held by head of state
+    p:P6 @<HeadOfGovernment> * ; # Head of government
+    p:P35 @<HeadOfState> * ; # Head of state
+    p:P910 @<TopicsMainCategory> ? ; # Topic's main category
+    p:P7084 @<CategoryRelatedToList> * ; # Category related to list
 }
 
 <InstanceOfFedTribe> {
     ps:P31 [ wd:Q7840353 ] ; # Instance of: federally recognized tribe
     prov:wasDerivedFrom @<AnyReference> * ; # Optional other references
-    prov:wasDerivedFrom @<StatedInReference> + ; # Must have a stated in reference pointing to an item that supports the claim
+    prov:wasDerivedFrom @<StatedInReference> * ; # Must have a stated in reference pointing to an item that supports the claim
 }
 
 <Inception> {
     ps:P571 xsd:dateTime ; # Inception date
-    prov:wasDerivedFrom @<AnyReference> + ; # Must have a reference of some type pointing to a source
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference of some type pointing to a source
 }
 
 <MemberCount> {
     ps:P2124 xsd:decimal ; # Expect whole number member count
-    pq:P585 xsd:dateTime + ; # Must have a point in time qualifier with at least a year
-    prov:wasDerivedFrom @<AnyReference> + ; # Must have a reference of some type pointing to a source
+    pq:P585 xsd:dateTime * ; # Must have a point in time qualifier with at least a year
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference of some type pointing to a source
 }
 
 <NativeLabel> {
@@ -66,22 +72,24 @@ START = @<FederallyRecognizedTribe>
     pq:P625 geo:wktLiteral * ; # Coordinate location
     pq:P6375 LITERAL * ; # Street address
     pq:P11693 LITERAL * ; # OpenStreetMap Node ID
+    pq:P580 xsd:dateTime ? ; # Start time
+    pq:P582 xsd:dateTime ? ; # End time
     prov:wasDerivedFrom @<AnyReference> * ; # Optional reference
 }
 
 <Image> {
     ps:P18 IRI ; # Image (Commons media file)
-    prov:wasDerivedFrom @<AnyReference> + ; # Must have a reference
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference
 }
 
 <FlagImage> {
     ps:P41 IRI ; # Flag image (Commons media file)
-    prov:wasDerivedFrom @<AnyReference> + ; # Must have a reference
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference
 }
 
 <SealImage> {
     ps:P158 IRI ; # Seal image (Commons media file)
-    prov:wasDerivedFrom @<AnyReference> + ; # Must have a reference
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference
 }
 
 <LocatorMapImage> {
@@ -104,4 +112,48 @@ START = @<FederallyRecognizedTribe>
     pq:P582 xsd:dateTime ? ; # End time
     pq:P2868 @<AnyItem> * ; # Role of the tribe in the timebound item
     prov:wasDerivedFrom @<AnyReference> * ; # Optional reference (ultimately required)
+}
+
+<OfficeHeldByHeadOfGovernment> {
+    ps:P1313 @<AnyItem> ; # Office held by head of government
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference
+}
+
+<OfficeHeldByHeadOfState> {
+    ps:P1906 @<AnyItem> ; # Office held by head of state
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference
+}
+
+<HeadOfGovernment> {
+    ps:P6 IRI ; # Head of government (entity IRI)
+    pq:P580 xsd:dateTime ? ; # Start time
+    pq:P582 xsd:dateTime ? ; # End time
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference
+}
+
+<HeadOfState> {
+    ps:P35 IRI ; # Head of state (entity IRI)
+    pq:P580 xsd:dateTime ? ; # Start time
+    pq:P582 xsd:dateTime ? ; # End time
+    prov:wasDerivedFrom @<AnyReference> * ; # Must have a reference
+}
+
+<Person> {
+    p:P31 { ps:P31 [ wd:Q5 ] } ; # Instance of: human
+}
+
+<P31Statement> {
+    ps:P31 . ;  # Any instance of value
+    prov:wasDerivedFrom @<AnyReference> * ; # Optional references
+}
+
+<TopicsMainCategory> {
+    ps:P910 IRI ; # Topic's main Wikimedia category (Wikidata item IRI)
+    prov:wasDerivedFrom @<AnyReference> * ; # Optional reference
+}
+
+<CategoryRelatedToList> {
+    ps:P7084 IRI ; # Additional Wikimedia category related to tribe (Wikidata item IRI)
+    pq:P1792 @<AnyItem> + ; # Category contains (at least one required)
+    prov:wasDerivedFrom @<AnyReference> * ; # Optional reference
 }
